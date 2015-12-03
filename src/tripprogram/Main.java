@@ -37,7 +37,7 @@ public class Main {
 
             filterTrips(trips, 0, 82, "Saturday", TimeCategory.B);
 
-            //   readFile();
+            readFile();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -71,7 +71,15 @@ public class Main {
         Sheet sheet1 = wrk1.getSheet(1);
 
         int date = 1;
+        int pointx = 3;
+        int time_start = 4;
+        int pointy = 5;
+        int time_end = 6;
+        int from = 15;
+        int to = 16;
+
         for (int i = 2; i <= 5; i++) {
+            System.out.println("from: " + sheet1.getCell(from, i).getContents());
             System.out.println("index " + i + ": " + sheet1.getCell(date, i).getContents());
         }
     }
