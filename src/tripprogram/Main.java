@@ -7,8 +7,13 @@ package tripprogram;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.Locale;
 import jxl.Sheet;
 import jxl.Workbook;
 import jxl.read.biff.BiffException;
@@ -19,13 +24,13 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        SimpleDateFormat df = new SimpleDateFormat("mm-dd-yy HH:mm:ss aa");
+        SimpleDateFormat df = new SimpleDateFormat("MM-dd-yy hh:mm:ss aa");
 
         LinkedList<Trip> trips = new LinkedList();
         try {
-            Trip t1 = new Trip(1, df.parse("10-17-15 11:44:24 AM"), df.parse("10-17-15 13:28:34 PM"), 0, 82);
-            Trip t2 = new Trip(2, df.parse("10-17-15 12:44:24 PM"), df.parse("10-17-15 13:44:34 PM"), 41, 82);
-            Trip t3 = new Trip(3, df.parse("10-17-15 12:44:24 PM"), df.parse("10-17-15 13:00:00 PM"), 75, 82);
+            Trip t1 = new Trip(1, df.parse("10-17-15 11:44:24 AM"), df.parse("10-17-15 01:28:34 PM"), 0, 82);
+            Trip t2 = new Trip(2, df.parse("10-17-15 12:44:24 PM"), df.parse("10-17-15 01:44:34 PM"), 41, 82);
+            Trip t3 = new Trip(3, df.parse("10-17-15 12:44:24 PM"), df.parse("10-17-15 01:00:00 PM"), 75, 82);
             Trip t4 = new Trip(4, df.parse("10-17-15 9:00:24 AM"), df.parse("10-17-15 09:31:34 AM"), 30, 0);
             Trip t5 = new Trip(5, df.parse("10-17-15 10:00:00 AM"), df.parse("10-17-15 11:00:00 AM"), 30, 0);
 
@@ -36,15 +41,26 @@ public class Main {
             trips.add(t2);
 
             filterTrips(trips, 0, 82, "Saturday", TimeCategory.B);
+            //  SimpleDateFormat df2 = new SimpleDateFormat("mm-dd-yy HH:mm:ss aa");
+            //  System.out.println(df2.parse("11-19-15 01:00:00 AM"));
 
-            readFile();
+            System.out.println("\nReading excel file");
+            List<Trip> xList = readFile();
+            filterTrips(xList, 0, 82, "Monday", TimeCategory.C);
+            /*
+             Date time = parseTime(new SimpleDateFormat("hh:mm:ss aa").format(t1.getTimeStart()));
+             System.out.println(time);
+             Date cBegin = parseTime(TimeCategory.E.getBegin());
+             System.out.println(cBegin);
+             System.out.println(time.compareTo(cBegin) >= 0);
+             */
         } catch (Exception e) {
             e.printStackTrace();
         }
 
     }
 
-    public static SortedTripList filterTrips(LinkedList<Trip> trips, int from, int to, String day, TimeCategory cat) {
+    public static SortedTripList filterTrips(List<Trip> trips, int from, int to, String day, TimeCategory cat) {
         SortedTripList tList = new SortedTripList();
 
         System.out.println("Trips that traveled from point:" + from + " to point:" + to + ", Day: " + day + ", TimeCat: " + cat);
@@ -65,23 +81,83 @@ public class Main {
         return tList;
     }
 
-    public static void readFile() throws IOException, BiffException {
+    public static List<Trip> readFile() throws IOException, BiffException, ParseException {
         Workbook wrk1 = Workbook.getWorkbook(new File("C:\\Users\\maine\\Desktop\\thesis\\Data-Entries2.xls"));
-
         Sheet sheet1 = wrk1.getSheet(1);
 
-        int date = 1;
-        int pointx = 3;
-        int time_start = 4;
-        int pointy = 5;
-        int time_end = 6;
-        int from = 15;
-        int to = 16;
+        int num_index = 0;
+        int date_index = 1;
+        int pointx_index = 3;
+        int timestart_index = 4;
+        int pointy_index = 5;
+        int timeend_index = 6;
+        int from_index = 15;
+        int to_index = 16;
 
-        for (int i = 2; i <= 5; i++) {
-            System.out.println("from: " + sheet1.getCell(from, i).getContents());
-            System.out.println("index " + i + ": " + sheet1.getCell(date, i).getContents());
+        List<Trip> list = new ArrayList();
+
+        for (int i = 2; i <= 302; i++) {
+
+            int num = 0;
+            String timeStart = "";
+            String timeEnd = "";
+            int pointStart = 0;
+            int pointEnd = 0;
+
+            String snum = sheet1.getCell(num_index, i).getContents();
+            if (!snum.isEmpty()) {
+                num = Integer.parseInt(snum);
+
+            }
+
+            String sdate = sheet1.getCell(date_index, i).getContents();
+            String stimestart = sheet1.getCell(timestart_index, i).getContents();
+            if (!sdate.isEmpty() && !stimestart.isEmpty()) {
+                timeStart = sdate + " " + stimestart;
+
+                // System.out.println(timeStart);
+            }
+
+            String stimeEnd = sheet1.getCell(timeend_index, i).getContents();
+            if (!sdate.isEmpty() && !stimeEnd.isEmpty()) {
+                timeEnd = sdate + " " + stimeEnd;
+
+                // System.out.println(timeEnd);
+            }
+
+            String sPointStart = sheet1.getCell(from_index, i).getContents();
+            if (!sPointStart.isEmpty()) {
+                pointStart = Integer.parseInt(sPointStart);
+
+                //System.out.println(pointStart);
+            }
+
+            String sPointEnd = sheet1.getCell(to_index, i).getContents();
+            if (!sPointEnd.isEmpty()) {
+                pointEnd = Integer.parseInt(sPointEnd);
+
+                // System.out.println(pointEnd);
+            }
+
+            SimpleDateFormat df = new SimpleDateFormat("MM/dd/yy hh:mm:ss aa");
+            if (!timeStart.isEmpty() && !timeEnd.isEmpty()) {
+                list.add(new Trip(num, df.parse(timeStart), df.parse(timeEnd), pointStart, pointEnd));
+            }
+
         }
+
+        return list;
+
     }
 
+    public static Date parseTime(String time) {
+
+        final String inputFormat = "hh:mm:ss aa";
+        SimpleDateFormat inputParser = new SimpleDateFormat(inputFormat, Locale.US);
+        try {
+            return inputParser.parse(time);
+        } catch (java.text.ParseException e) {
+            return new Date(0);
+        }
+    }
 }

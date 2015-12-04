@@ -101,13 +101,14 @@ public class Trip {
 
         //check if day is satisfied
         SimpleDateFormat df = new SimpleDateFormat("EEEE", Locale.ENGLISH);
+
         daySatisfied = (df.format(timeStart.getTime()).equals(day));
+       // System.out.println("Trip no. " + num + " " + df.format(timeStart.getTime()) + " --> " + daySatisfied + " day: " + timeStart);
 
         //check if time is satisified
-        Date time = parseTime(new SimpleDateFormat("HH:mm:ss aa").format(timeStart));
+        Date time = parseTime(new SimpleDateFormat("hh:mm:ss aa").format(timeStart));
         Date cBegin = parseTime(TimeCategory.valueOf(cat.name()).getBegin());
         Date cEnd = parseTime(TimeCategory.valueOf(cat.name()).getEnd());
-        //  timeSatisfied = (time.after(cBegin) || time.compareTo(cBegin) >=0) && time.before(cEnd);
         timeSatisfied = (time.compareTo(cBegin) >= 0) && (time.compareTo(cEnd) <= 0);
 
         return daySatisfied && timeSatisfied;
@@ -124,7 +125,7 @@ public class Trip {
 
     public Date parseTime(String time) {
 
-        final String inputFormat = "HH:mm:ss aa";
+        final String inputFormat = "hh:mm:ss aa";
         SimpleDateFormat inputParser = new SimpleDateFormat(inputFormat, Locale.US);
         try {
             return inputParser.parse(time);

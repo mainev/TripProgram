@@ -12,10 +12,10 @@ package tripprogram;
 public enum TimeCategory {
 
     A("07:00:00 AM", "10:00:00 AM"),
-    B("10:00:00 AM", "13:00:00 PM"),
-    C("13:00:00 PM", "16:00:00 PM"),
-    D("16:00:00 PM", "19:00:00 PM"),
-    E("19:00:00 PM", "22:00:00 PM");
+    B("10:00:00 AM", "01:00:00 PM"),
+    C("01:00:00 PM", "04:00:00 PM"),
+    D("04:00:00 PM", "07:00:00 PM"),
+    E("07:00:00 PM", "10:00:00 PM");
 
     private final String begin;
     private final String end;
