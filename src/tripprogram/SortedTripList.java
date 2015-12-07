@@ -28,7 +28,7 @@ public class SortedTripList {
     }
 
     public void insert(Trip obj) {
-        if (head.next == null) {
+        if (isEmpty()) {
             head.next = new Node(obj);
             tail = head.next;
         } else {
@@ -96,6 +96,10 @@ public class SortedTripList {
             tmp = tmp.next;
         }
         return i;
+    }
+
+    public boolean isEmpty() {
+        return head.next == null;
     }
 
     @Override

@@ -44,9 +44,9 @@ public class Main {
             //  SimpleDateFormat df2 = new SimpleDateFormat("mm-dd-yy HH:mm:ss aa");
             //  System.out.println(df2.parse("11-19-15 01:00:00 AM"));
 
-            System.out.println("\nReading excel file");
+            System.out.println("\nREADING EXCEL FILE...");
             List<Trip> xList = readFile();
-            filterTrips(xList, 0, 82, "Monday", TimeCategory.C);
+            filterTrips(xList, 0, 82, "Monday", TimeCategory.B);
             /*
              Date time = parseTime(new SimpleDateFormat("hh:mm:ss aa").format(t1.getTimeStart()));
              System.out.println(time);
