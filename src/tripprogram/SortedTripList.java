@@ -17,7 +17,6 @@ public class SortedTripList {
     public SortedTripList() {
         head = new Node(null);
         tail = null;
-
     }
 
     public Node getTail() {
@@ -46,7 +45,6 @@ public class SortedTripList {
                     tmp = tmp.next;
                 }
             }
-
             prev.setNext(nodeObj);
             tail = nodeObj;
             tail.next = null;
@@ -65,15 +63,12 @@ public class SortedTripList {
     public double computerAverageTime() {
 
         double sum = 0;
-        int size = 0;
         Node tmp = head.next;
         while (tmp != null) {
-            size++;
             sum = sum + tmp.getObj().getAveTime();
             tmp = tmp.next;
         }
-
-        return sum / size;
+        return sum / getSize();
     }
 
     private void removeHead() {

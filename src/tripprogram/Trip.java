@@ -18,12 +18,39 @@ public class Trip {
     private int pointStart;
     private int pointEnd;
 
+    private Point pointx; //start
+    private Point pointy; //end
+
     public Trip(int num, Date timeStart, Date timeEnd, int pointStart, int pointEnd) {
         this.num = num;
         this.timeStart = timeStart;
         this.timeEnd = timeEnd;
         this.pointStart = pointStart;
         this.pointEnd = pointEnd;
+    }
+
+    public Trip(int num, Date timeStart, Date timeEnd, Point pointx, Point pointy) {
+        this.num = num;
+        this.timeStart = timeStart;
+        this.timeEnd = timeEnd;
+        this.pointx = pointx;
+        this.pointy = pointy;
+    }
+
+    public Point getPointx() {
+        return pointx;
+    }
+
+    public void setPointx(Point pointx) {
+        this.pointx = pointx;
+    }
+
+    public Point getPointy() {
+        return pointy;
+    }
+
+    public void setPointy(Point pointy) {
+        this.pointy = pointy;
     }
 
     public int getNum() {

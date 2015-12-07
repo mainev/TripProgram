@@ -54,6 +54,7 @@ public class Main {
              System.out.println(cBegin);
              System.out.println(time.compareTo(cBegin) >= 0);
              */
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -69,7 +70,7 @@ public class Main {
                 tList.insert(t);
             }
         }
-        System.out.println("TRIPS: " + tList.getSize() + "\n" + tList);
+        System.out.println("SORTED TRIPS: " + tList.getSize() + "\n" + tList);
         try {
             tList.excludeFirstAndLast();
             System.out.println("EXCLUDE FIRST AND LAST: " + tList);
@@ -103,39 +104,52 @@ public class Main {
             String timeEnd = "";
             int pointStart = 0;
             int pointEnd = 0;
+            double xlatitude = 0;
+            double xlongitude = 0;
+            double ylatitude = 0;
+            double ylongitude = 0;
+
+            String x = sheet1.getCell(pointx_index, i).getContents();
+            if (!x.isEmpty()) {
+                String[] tokens = x.split(",");
+                xlatitude = Double.parseDouble(tokens[0]);
+                xlongitude = Double.parseDouble(tokens[1]);
+            }
+
+            String y = sheet1.getCell(pointy_index, i).getContents();
+            if (!y.isEmpty()) {
+                String[] tokens = y.split(",");
+                ylatitude = Double.parseDouble(tokens[0]);
+                ylongitude = Double.parseDouble(tokens[1]);
+            }
 
             String snum = sheet1.getCell(num_index, i).getContents();
             if (!snum.isEmpty()) {
                 num = Integer.parseInt(snum);
-
             }
 
             String sdate = sheet1.getCell(date_index, i).getContents();
             String stimestart = sheet1.getCell(timestart_index, i).getContents();
             if (!sdate.isEmpty() && !stimestart.isEmpty()) {
                 timeStart = sdate + " " + stimestart;
-
                 // System.out.println(timeStart);
             }
 
             String stimeEnd = sheet1.getCell(timeend_index, i).getContents();
             if (!sdate.isEmpty() && !stimeEnd.isEmpty()) {
                 timeEnd = sdate + " " + stimeEnd;
-
                 // System.out.println(timeEnd);
             }
 
             String sPointStart = sheet1.getCell(from_index, i).getContents();
             if (!sPointStart.isEmpty()) {
                 pointStart = Integer.parseInt(sPointStart);
-
                 //System.out.println(pointStart);
             }
 
             String sPointEnd = sheet1.getCell(to_index, i).getContents();
             if (!sPointEnd.isEmpty()) {
                 pointEnd = Integer.parseInt(sPointEnd);
-
                 // System.out.println(pointEnd);
             }
 
