@@ -13,29 +13,106 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Scanner;
 import jxl.Sheet;
 import jxl.Workbook;
 import jxl.read.biff.BiffException;
 
-public class Main {
+/**
+ *
+ * @author maine
+ */
+public class Main2 {
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-      //  SimpleDateFormat df = new SimpleDateFormat("MM-dd-yy hh:mm:ss aa");
+        // SimpleDateFormat df = new SimpleDateFormat("mm-dd-yy HH:mm:ss aa");
 
-        //  LinkedList<Trip> trips = new LinkedList();
+        Scanner input = new Scanner(System.in);
+        //   LinkedList<Trip> trips = new LinkedList();
+
         try {
+
+            TimeCategory cat = null;
+            do {
+                System.out.println("Select time category:");
+                System.out.println("1)  7:00 am - 10:00 am");
+                System.out.println("2)  10:00 am - 01:00 pm");
+                System.out.println("3)  01:00 pm - 04:00 pm");
+                System.out.println("4)  04:00 pm - 07:00 pm");
+                System.out.println("5)  07:00 pm - 10:00 pm");
+                System.out.println("Type your choice here: ");
+                int catNum = Integer.parseInt(input.next());
+
+                switch (catNum) {
+
+                    case 1:
+                        cat = TimeCategory.A;
+                        break;
+                    case 2:
+                        cat = TimeCategory.B;
+                        break;
+                    case 3:
+                        cat = TimeCategory.C;
+                        break;
+                    case 4:
+                        cat = TimeCategory.D;
+                        break;
+                    case 5:
+                        cat = TimeCategory.E;
+                        break;
+                    default:
+                        cat = null;
+                        System.out.println("Input invalid. Try again.");
+                        break;
+                }
+            } while (cat == null);
+
+            System.out.println("Enter type of day:");
+            String day = "";
+            do {
+                System.out.println("1) Monday 2) Tuesday 3) Wednesday 4) Thursday 5) Friday 6) Saturday 7) Sunday");
+                System.out.println("Type your choice here: ");
+                int dayNum = Integer.parseInt(input.next());
+
+                switch (dayNum) {
+                    case 1:
+                        day = "Monday";
+                        break;
+                    case 2:
+                        day = "Tuesday";
+                        break;
+                    case 3:
+                        day = "Wednesday";
+                        break;
+                    case 4:
+                        day = "Thursday";
+                        break;
+                    case 5:
+                        day = "Friday";
+                        break;
+                    default:
+                        day = "";
+
+                        System.out.println("Input invalid. Try again.");
+                        break;
+                }
+            } while (day.isEmpty());
+
+            System.out.println("Type starting point here: ");
+            int startP = Integer.parseInt(input.next());
+            System.out.println("Type ending point here: ");
+            int endP = Integer.parseInt(input.next());
 
             System.out.println("\nREADING EXCEL FILE...");
             List<Trip> xList = readFile();
-            filterTrips(xList, 0, 82, "Monday", TimeCategory.A);
+            filterTrips(xList, startP, endP, day, cat);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     public static SortedTripList filterTrips(List<Trip> trips, int from, int to, String day, TimeCategory cat) {
@@ -151,4 +228,5 @@ public class Main {
             return new Date(0);
         }
     }
+
 }

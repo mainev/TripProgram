@@ -119,7 +119,7 @@ public class Trip {
     }
 
     public boolean isInSegment(int from, int to) {
-        return (pointStart >= from) && (pointEnd <= to);
+        return ((pointStart >= from) && (pointEnd <= to)) || ((pointStart <= from) && (pointEnd >= to));
     }
 
     public boolean hasTravelledInDayTime(String day, TimeCategory cat) {
